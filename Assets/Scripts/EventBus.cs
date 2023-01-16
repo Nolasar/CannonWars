@@ -15,4 +15,8 @@ public static class EventBus
 
     public static Action onWrongBoxTouch;
 
+    public static Action onGameOver;
+
+    public static Action onGameStart;
+
 }

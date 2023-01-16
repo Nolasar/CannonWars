@@ -6,16 +6,32 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject cannons;
     [SerializeField] private GameObject boxes;
+
+    private static GameManager instance;
+
+    public bool isGameOver = false;
     public float playTimer = 60;
     public float timeToStart = 3.0f;
     public int lives = 3;
     public int score = 0;
 
+    public static GameManager getInstance() 
+    {
+        if (instance == null)
+        {
+            instance = new GameManager();
+        }
+        return instance; 
+    }
     private void Start()
     {
-        StartCoroutine(GameStartCooldown());       
+        StartGame();
     }
 
+    private void Update()
+    {
+        GameOver();
+    }
     private void OnEnable()
     {
         EventBus.onCorrectBoxTouch += UpdateScore;
@@ -44,12 +60,16 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             EventBus.onCooldownToStartChanges?.Invoke();
             timeToStart -= 1;
-        }
-        if (timeToStart < 0)
-        {
-            if (!boxes.activeInHierarchy) boxes.SetActive(true);
+            if (timeToStart < 0)
+            {
+                if (!boxes.activeInHierarchy) boxes.SetActive(true);
 
-            if (!cannons.activeInHierarchy) cannons.SetActive(true);
+                if (!cannons.activeInHierarchy) cannons.SetActive(true);
+
+                EventBus.onGameStart?.Invoke();
+
+                StopCoroutine(GameStartCooldown());
+            }
         }
     }
 
@@ -57,7 +77,23 @@ public class GameManager : MonoBehaviour
     {
         if (lives == 0)
         {
+            isGameOver = true;
 
+            StopAllCoroutines();
+
+            if (boxes.activeInHierarchy) boxes.SetActive(false);
+
+            if (cannons.activeInHierarchy) cannons.SetActive(false);
+
+            EventBus.onGameOver?.Invoke();
         }
+    }
+
+    private void StartGame()
+    {
+        isGameOver = false;
+        StartCoroutine(GameStartCooldown());
+        
+        
     }
 }

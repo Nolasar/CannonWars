@@ -37,7 +37,7 @@ public class SpawnProjectiles : MonoBehaviour
     private void Spawn()
     {
         // create projectiles while magazin not empty
-        if (projectileIndex >= projectiles.Count)
+        if (projectileIndex >= projectiles.Count || gameManager.isGameOver)
         {
             // Finish shooting
             Debug.Log(gameObject.name + " end shooting");
