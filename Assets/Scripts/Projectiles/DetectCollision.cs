@@ -16,18 +16,18 @@ public class DetectCollision : MonoBehaviour
         if (collision.gameObject.tag == correctBox)
         {
             EventBus.onCorrectBoxTouch?.Invoke();
-            Destroy(gameObject);
+            
         }
         else if (collision.gameObject.tag == "Blade")
         {
-            Destroy(gameObject);
-            Debug.Log("Cut cut cut");
+            
         }
         else
         {
             EventBus.onWrongBoxTouch?.Invoke();
-            Destroy(gameObject);       
+            
         }
+        gameObject.SetActive(false);
     }
 
     private void ChooseBox()

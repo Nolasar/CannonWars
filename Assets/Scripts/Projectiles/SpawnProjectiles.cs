@@ -40,7 +40,6 @@ public class SpawnProjectiles : MonoBehaviour
         if (projectileIndex >= projectiles.Count || gameManager.isGameOver)
         {
             // Finish shooting
-            Debug.Log(gameObject.name + " end shooting");
             CancelInvoke("Spawn");
         }
         else
@@ -54,9 +53,9 @@ public class SpawnProjectiles : MonoBehaviour
     // Calculate magazin size depends on game duration and projectile spawn interval
     private int AmmoMagazinSize()
     {
-        int size = ((gameManager.playTimer - startDelay) / spawnInterval).ConvertTo<int>() - 1;
+        int size = ((gameManager.timeToEnd - startDelay) / spawnInterval).ConvertTo<int>()-1;
         // Magazin size must be multiple of projectile prefabs count
-        return (size % projectilePrefabs.Count == 0) ? size: (size % projectilePrefabs.Count == 1) ? size-1: size-2;
+        return (size % projectilePrefabs.Count == 0) ? size: (size % projectilePrefabs.Count == 1) ? size+2: size+1;
     }
 
     // Куегкт filled list with prefabs

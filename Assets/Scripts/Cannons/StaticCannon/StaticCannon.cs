@@ -23,14 +23,12 @@ public class StaticCannon : BaseCannnon
             // For right cannon
             maxAngle = CalculateAngle(cannon, rightBoxBorder);
             minAngle = CalculateAngle(cannon, leftBoxBorder);
-            Debug.Log($"Max angle :{maxAngle} Min angle {minAngle}");
         }
         else
         {
             // For left
             minAngle = CalculateAngle(cannon, rightBoxBorder);
-            maxAngle = CalculateAngle(cannon, leftBoxBorder);
-            Debug.Log($"Max angle :{maxAngle} Min angle {minAngle}");
+            maxAngle = CalculateAngle(cannon, leftBoxBorder);          
         }
     }
 

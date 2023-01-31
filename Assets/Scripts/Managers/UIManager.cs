@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
         // initialize default values for score and lives
         scoreText.text = $"Score: {gameManager.score}";
         livesText.text = $"Lives: {gameManager.lives}";
-        cooldownToEndText.text = $"Timer remaining: {gameManager.timeToEnd}";
+        cooldownToEndText.text = $"{gameManager.timeToEnd} seconds remaining";
         // Activate cooldown panel
         startTimerPanel.SetActive(true);
         // Hide player stats while cooldown on
@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateCooldownToEndGameText()
     {
-        cooldownToEndText.text = $"Time remaining: {gameManager.timeToEnd}";
+        cooldownToEndText.text = $"{gameManager.timeToEnd} seconds remaining";
     }
 
     private void ShowGameOverPanel()
@@ -97,6 +97,5 @@ public class UIManager : MonoBehaviour
         scoreText.gameObject.SetActive(visibility);
         livesText.gameObject.SetActive(visibility);
         cooldownToEndText.gameObject.SetActive(visibility);
-    }
-    
+    }    
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,15 +8,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject boxes;
 
     public bool isGameOver { get; private set; } = false;
-    public float playTimer { get; private set; } = 60;
     public int timeToStart { get; private set; } = 3;
-    public int timeToEnd { get; private set; } = 60;
+    public int timeToEnd { get; private set; } = 61;
     public int lives { get; private set; } = 3;
     public int score { get; private set; } = 0;
+    public static int maxUnlockLevel { get; private set; } = 1;
 
+    private int currentLevel;
+    private DataManager data;
     private void Start()
     {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        data = DataManager.instance;
         StartCoroutine(GameStartCooldown());
+
+        if (boxes.activeInHierarchy) boxes.SetActive(false);
+        if (cannons.activeInHierarchy) cannons.SetActive(false);
     }
 
     private void Update()
@@ -46,6 +54,14 @@ public class GameManager : MonoBehaviour
         score++;
     }
 
+    private void UpdateMaxUnlockedLevel()
+    {
+        if (data.maxUnlockedLevel < currentLevel)
+        {
+            data.maxUnlockedLevel++;
+        }
+    }
+    
     // Timer to start of the game
     IEnumerator GameStartCooldown()
     {
@@ -72,7 +88,12 @@ public class GameManager : MonoBehaviour
 
         if (cannons.activeInHierarchy) cannons.SetActive(false);
 
-        EventBus.onGameOver?.Invoke(); 
+        EventBus.onGameOver?.Invoke();
+
+        // Need to check if player have at least one star
+        UpdateMaxUnlockedLevel();
+
+        data.SaveToFile();
     }
 
     private void StartGame()
@@ -90,11 +111,20 @@ public class GameManager : MonoBehaviour
         EventBus.onGameStart?.Invoke();
     }
 
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(currentLevel);
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     IEnumerator GameEndCooldown()
     {
         while (timeToEnd > -1)
         {
-            yield return new WaitForSeconds(1);
             // Update UI
             EventBus.onCooldownToEndChanges?.Invoke();
             timeToEnd -= 1;
@@ -102,6 +132,8 @@ public class GameManager : MonoBehaviour
             {
                 GameOver();
             }
+            yield return new WaitForSeconds(1);
         }
     }
+
 }

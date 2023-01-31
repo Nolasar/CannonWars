@@ -8,7 +8,7 @@ public class Blade : MonoBehaviour
     private GameObject currentTrail;
     private bool isCutting;
     private Vector2 previousPosition;
-    [SerializeField] private float velocityThreshold = 0.001f;
+    private float velocityThreshold = 0.001f;
     private float zPosTheshold = -1.0f;
 
     void Start()
