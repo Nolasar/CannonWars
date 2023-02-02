@@ -9,6 +9,7 @@ TagManager:
   - Box3
   - Projectile
   - Blade
+  - Floor
   layers:
   - Default
   - TransparentFX

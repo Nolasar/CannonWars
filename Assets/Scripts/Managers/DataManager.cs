@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public LevelStruct[] levels;
+    public List<LevelStruct> levels;
     public int maxUnlockedLevel = 1;
 
     private string savePath;
     private string saveFileName = "data.json";
+
     public static DataManager instance;
+
     private void Awake()
     {
         if (instance == null)
@@ -79,6 +81,6 @@ public struct LevelStruct
 [System.Serializable]
 public struct PlayerDataStruct
 {
-    public LevelStruct[] levels;
+    public List<LevelStruct> levels;
     public int maxUnlockedLevel;
 }

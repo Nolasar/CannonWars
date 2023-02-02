@@ -13,21 +13,24 @@ public class DetectCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == correctBox)
+        if (collision.gameObject.CompareTag(correctBox))
         {
             EventBus.onCorrectBoxTouch?.Invoke();
             
         }
-        else if (collision.gameObject.tag == "Blade")
+        else if (collision.gameObject.CompareTag("Blade"))
         {
             
+        }
+        else if (collision.gameObject.CompareTag("Floor"))
+        {
+
         }
         else
         {
-            EventBus.onWrongBoxTouch?.Invoke();
-            
+            EventBus.onWrongBoxTouch?.Invoke();           
         }
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     private void ChooseBox()

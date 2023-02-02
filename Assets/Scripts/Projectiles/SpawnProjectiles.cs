@@ -14,12 +14,12 @@ public class SpawnProjectiles : MonoBehaviour
     // game manager instance
     private GameManager gameManager;
     // initial delay and interval of shooting
-    public float spawnInterval = 2.0f;
-    public float startDelay = 1.0f;
+    [SerializeField] private float spawnInterval = 2.0f;
+    [SerializeField] private float startDelay = 1.0f;
     // index of corrent projectile
     [SerializeField] private int projectileIndex;
     // size of gun's magazin
-    private int amountProjectile;
+    public int amountProjectile { get; private set; }
     private void Start()
     {
         // ref to game manager
@@ -53,7 +53,7 @@ public class SpawnProjectiles : MonoBehaviour
     // Calculate magazin size depends on game duration and projectile spawn interval
     private int AmmoMagazinSize()
     {
-        int size = ((gameManager.timeToEnd - startDelay) / spawnInterval).ConvertTo<int>()-1;
+        int size = ((gameManager.timeToEnd - startDelay) / spawnInterval).ConvertTo<int>();
         // Magazin size must be multiple of projectile prefabs count
         return (size % projectilePrefabs.Count == 0) ? size: (size % projectilePrefabs.Count == 1) ? size+2: size+1;
     }
